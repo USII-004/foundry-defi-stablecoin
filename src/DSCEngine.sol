@@ -170,7 +170,13 @@ contract DSCEngine{
     * @param amountDscToBurn the amount of decentralized stable coin to burn
     * @notice this functions burns dsc and redeems collateral in one transaction
     */
-  function redeemCollateralforDsc(address tokenCollateralAddress, uint256 amountCollateral, uint256 amountDscToBurn) external {
+  function redeemCollateralForDsc(
+    address tokenCollateralAddress, 
+    uint256 amountCollateral, 
+    uint256 amountDscToBurn
+    ) 
+    external 
+    {
     burnDsc(amountDscToBurn);
     redeemCollateral(tokenCollateralAddress, amountCollateral);
     // redeedCollateral already checks health factor
@@ -347,6 +353,10 @@ contract DSCEngine{
 
   function getAccoutInformation(address user) external view returns(uint256 totalDscMinted, uint256 collateralValueInUsd) {
     (totalDscMinted, collateralValueInUsd) = _getAccountInformation(user);
+  }
+
+  function getCollateralBalanceOfUser(address user, address token) external view returns(uint256) {
+    return s_collateralDeposited[user][token];
   }
 
   function getPrecision() external pure returns(uint256) {
