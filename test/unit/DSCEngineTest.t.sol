@@ -340,4 +340,31 @@ contract DCSEngineTest is Test {
     uint256 userBalance = dsc.balanceOf(USER);
     assertEq(userBalance, 0);
   }
+
+
+  /*//////////////////////////////////////////////////////////////
+                      HEALTHFACTORTEST
+  //////////////////////////////////////////////////////////////*/
+
+  function testProperlyReportHealthFactor() public depositedCollateralAndMintedDsc {
+    uint256 expectedHealthFactor = 100 ether;
+    uint256 healthFactor = engine.getHealthFactor(USER);
+    // $100 minted with $20,000 collateral at 50% liquidation threshold
+    // means that we must have $200 collateral at all times.
+    // $20,000 * 0.5 = $10,000
+    // 10,000 / 100 = 100 health factor
+    assertEq(expectedHealthFactor, healthFactor); 
+  }
+
+  function testHealthFactorCannotGoBelowOne() public depositedCollateralAndMintedDsc {
+    int256 ethUsdUpdatedPrice = 18e8; // 1 ETH = $18
+    // Remember, we need $200 at all times if we have $100 of debt
+
+    MockV3Aggregator(ethUsdPriceFeed).updateAnswer(ethUsdUpdatedPrice);
+
+    uint256 userHealthFactor = engine.getHealthFactor(USER);
+    // 180*50 (LIQUIDATION_THRESHOLD) / 100 (LIQUIDATION_PRECISION) / 100 (PRECISION) = 90 / 100 (totalDscMinted) =
+    // 0.9
+    assert(userHealthFactor == 0.9 ether);   
+  }
 }
