@@ -370,4 +370,32 @@ contract DSCEngine{
   function getHealthFactor(address user) external view returns(uint256) {
     return _healthFactor(user);
   }
+
+  function getCollateralTokens() external view returns(address[] memory) {
+    return s_collateralTokens;
+  }
+
+  function getLiquidationBonus() external pure returns(uint256) {
+    return LIQUIDATION_BONUS;
+  }
+
+  function getLiquidationPrecision() external pure returns(uint256) {
+    return LIQUIDATION_PRECISION;
+  }
+
+  function getCollateralTokenPriceFeed(address token) external view returns(address) {
+    return s_priceFeeds[token];
+  }
+
+  function getMinHealthFactor() external pure returns(uint256) {
+    return MIN_HEALTH_FACTOR;
+  }
+
+  function getLiquidationThreshold() external pure returns(uint256) {
+    return LIQUIDATION_THRESHOLD;
+  }
+
+  function getDsc() external view returns(address) {
+    return address(i_dsc);
+  }
 }
