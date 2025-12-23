@@ -9,3 +9,9 @@
   - Collateral: Exogenous (Crypto)
       - wETH
       - wBTC
+
+  - what are invariant/properties
+
+  - write some proper oracle use
+  - write more tests
+  - smart contract audit preparation

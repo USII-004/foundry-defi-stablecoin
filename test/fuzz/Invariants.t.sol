@@ -37,7 +37,7 @@ contract Invariant is StdInvariant, Test {
     targetContract(address(handler));
   }
 
-  function invariant_protocolMustHaveMoreValueThatTotalSupply() public view {
+  function invariant_protocolMustHaveMoreValueThanTotalSupply() public view {
     // get value of all the collateral in the protocol
     // compare it to all the debt (dsc)
     uint256 totalSupply = dsc.totalSupply();
@@ -50,6 +50,7 @@ contract Invariant is StdInvariant, Test {
     console.log("weth value: ", wethValue);
     console.log("wbtc value: ", wbtcValue);
     console.log("total supply: ", totalSupply);
+    console.log("Times mint is called", handler.timesMintIsCalled());
 
 
     assert(wethValue + wbtcValue >= totalSupply);

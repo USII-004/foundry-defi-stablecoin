@@ -134,7 +134,7 @@ contract DCSEngineTest is Test {
   }
 
   function testCanDepositCollateralAndGetAccountInfo() public depositedCollateral {
-    (uint256 totalDscMinted, uint256 collateralValueInUsd) = engine.getAccoutInformation(USER);
+    (uint256 totalDscMinted, uint256 collateralValueInUsd) = engine.getAccountInformation(USER);
 
     uint256 expectedTotalDscMinted = 0;
     uint256 expectedDepositAmount = engine.getTokenAmountFromUsd(weth, collateralValueInUsd);
@@ -464,19 +464,19 @@ contract DCSEngineTest is Test {
     uint256 usdAmountLiquidated = engine.getUsdValue(weth, amountLiquidated);
     uint256 expectedUserCollateralValueInUsd = engine.getUsdValue(weth, AMOUNT_COLLATERAL) - (usdAmountLiquidated);
 
-    (, uint256 userCollateralValueInUsd) = engine.getAccoutInformation(USER);
+    (, uint256 userCollateralValueInUsd) = engine.getAccountInformation(USER);
     uint256 hardCodedExpectedValue = 70_000_000_000_000_000_020;
     assertEq(userCollateralValueInUsd, expectedUserCollateralValueInUsd);
     assertEq(userCollateralValueInUsd, hardCodedExpectedValue);
   }
 
   function testLiquidatorTakesOnUserDebt() public liquidated {
-    (uint256 liquidatorDscMinted,) = engine.getAccoutInformation(liquidator);
+    (uint256 liquidatorDscMinted,) = engine.getAccountInformation(liquidator);
     assertEq(liquidatorDscMinted, amountToMint);
   }
 
   function testUserHasNoMoreDebt() public liquidated {
-    (uint256 userDscMinted,) = engine.getAccoutInformation(USER);
+    (uint256 userDscMinted,) = engine.getAccountInformation(USER);
     assertEq(userDscMinted, 0);
   }
 
@@ -506,7 +506,7 @@ contract DCSEngineTest is Test {
   }
 
   function testGetAccountCollateralValueFromInformation() public depositedCollateral {
-    (, uint256 collateralValue) = engine.getAccoutInformation(USER);
+    (, uint256 collateralValue) = engine.getAccountInformation(USER);
     uint256 expectedCollateralValue = engine.getUsdValue(weth, AMOUNT_COLLATERAL);
     assertEq(collateralValue, expectedCollateralValue); 
   }
